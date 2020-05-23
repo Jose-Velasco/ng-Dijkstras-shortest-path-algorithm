@@ -1,0 +1,20 @@
+.square {
+    border: 1px solid black;
+    width: 2.5em;
+    height: 2.5em;
+    margin: 0;
+}
+
+.startSquare {
+    border: 3px solid orange;
+    background-color: cyan;
+}
+
+.wallSquare {
+    background-color: black;
+}
+
+.endSquare {
+    border: 3px solid cyan;
+    background-color: orange;
+}

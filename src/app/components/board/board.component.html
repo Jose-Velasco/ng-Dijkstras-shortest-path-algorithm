@@ -1,0 +1,8 @@
+<main>
+    <app-square 
+      *ngFor="let square of squares; let i = index"
+      [sqaureIndex]="[i]"
+      (click)="onSquareClicked(i)"></app-square>
+      <!-- (dragover)="onSquaredragover(i)" -->
+        <!-- ^^^^ might need this for being able to color mulitple square while holding mouse button -->
+  </main>

@@ -1,0 +1,28 @@
+.main-menu-wraper {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.reset-button {
+    width: 5em;
+    height: 3em;
+    background-color: yellow;
+    font-size: 1.6em;
+}
+
+.start-button {
+    width: 5em;
+    height: 3em;
+    background-color: aquamarine;
+    font-size: 1.6em;
+}
+
+.Wall-done-button {
+    width: 5em;
+    height: 3em;
+    background-color: black;
+    font-size: 1.6em;
+    color: white;
+}
