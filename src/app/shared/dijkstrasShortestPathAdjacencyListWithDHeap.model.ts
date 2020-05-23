@@ -35,6 +35,19 @@ export class DijkstrasShortestPathAdjacencyListWithDHeap {
     this.createEmptyGraph();
   }
 
+  getdist(): number[] {
+    return this.dist;
+  }
+  getprev(): number[] {
+    return this.prev;
+  }
+  getnumofNodes(): number {
+    return this.numOfNodes;
+  }
+  getedgeCount(): number {
+    return this.edgeCount;
+  }
+
   // Construct an empty graph with n nodes including the source and sink nodes.
   private createEmptyGraph(): void {
     this.graph = [];
@@ -80,12 +93,12 @@ export class DijkstrasShortestPathAdjacencyListWithDHeap {
 
     // maintain an array of the minium distance to each other
     // const dist: number[] = new Array(this.numOfNodes);
-    const dist: number[] = [];
+    this.dist = [];
     // dist.fill(Number.POSITIVE_INFINITY, 0, this.numOfNodes);
     for(let k = 0; k < this.numOfNodes; k++) {
-      dist[k] = Number.POSITIVE_INFINITY;
+      this.dist[k] = Number.POSITIVE_INFINITY;
     }
-    dist[start] = 0.0;
+    this.dist[start] = 0.0;
 
     // const visited: boolean[] = new Array(this.numOfNodes);
     // prev: number[] = new Array(this.numOfNodes);
@@ -93,6 +106,7 @@ export class DijkstrasShortestPathAdjacencyListWithDHeap {
     this.prev = [];
 
     while(!ipq.isEmpty()) {
+      console.log(this.dist);
       let nodeId: number = ipq.peekMinKeyIndex();
 
       visited[nodeId] = true;
@@ -100,12 +114,11 @@ export class DijkstrasShortestPathAdjacencyListWithDHeap {
 
       // we already found a better path before we got to
       // processing this node so we can ignore it
-      if(minValue > dist[nodeId]) {
+      if(minValue > this.dist[nodeId]) {
         continue;
       }
 
       this.graph[nodeId].forEach((edge: Edge) => {
-
         // we cannot get a shorter path by revisiting
         // a node we have already visited before
         /**
@@ -118,10 +131,10 @@ export class DijkstrasShortestPathAdjacencyListWithDHeap {
         }
 
         // relax edge by updating minimum cost if applicable
-        let newDist: number = dist[nodeId] + edge.cost;
-        if(newDist < dist[edge.to]) {
+        let newDist: number = this.dist[nodeId] + edge.cost;
+        if(newDist < this.dist[edge.to]) {
           this.prev[edge.to] = nodeId;
-          dist[edge.to] = newDist;
+          this.dist[edge.to] = newDist;
           // insert the cost of going to a node for the first time in the PQ,
           // or try and update it to a better value by calling decrease
           if(!ipq.contains(edge.to)) {
@@ -136,7 +149,7 @@ export class DijkstrasShortestPathAdjacencyListWithDHeap {
       // shorter path by routing through any other nodes since Dijkstra's is
       // greedy and there are no negative edge weights.
       if(nodeId == end) {
-        return dist[end];
+        return this.dist[end];
       }
     }
     // end node is unreachable

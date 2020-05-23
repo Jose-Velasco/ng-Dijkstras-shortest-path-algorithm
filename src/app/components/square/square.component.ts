@@ -16,6 +16,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   endSquareColor: boolean = false;
   xCoordinate: number;
   yCoordinate: number;
+  visited: boolean = false;
 
 
   constructor(private squareStatusServ: SquareStatusService) { }
