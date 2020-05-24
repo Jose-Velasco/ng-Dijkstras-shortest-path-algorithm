@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DijkstrasAlog } from 'src/app/services/dijkstrasAlog.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -8,7 +9,9 @@ import { Router } from '@angular/router';
 })
 export class MainMenuComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private dijkstrasAlgo: DijkstrasAlog) { }
 
   ngOnInit() {
   }
@@ -19,4 +22,7 @@ export class MainMenuComponent implements OnInit {
   });
   }
 
+  startVisualization() {
+    this.dijkstrasAlgo.initiateVisualAlgorithm();
+  }
 }

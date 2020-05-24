@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 })
 export class SquareComponent implements OnInit, OnDestroy {
   private activatedSquareSubscri: Subscription;
+  private squareStatusSubscri: Subscription;
   @Input() sqaureIndex: number;
   clickedSquare: number;
   startSquareColor: boolean = false;
@@ -16,7 +17,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   endSquareColor: boolean = false;
   xCoordinate: number;
   yCoordinate: number;
-  visited: boolean = false;
+  hasVisited: boolean = false;
 
 
   constructor(private squareStatusServ: SquareStatusService) { }
@@ -32,6 +33,12 @@ export class SquareComponent implements OnInit, OnDestroy {
       this.onCheckSquareStatus(currentMode);
 
     });
+
+    this.squareStatusSubscri = this.squareStatusServ.onSquareVisited.subscribe((nodeIndex: number) => {
+      if (this.sqaureIndex == nodeIndex) {
+        this.hasVisited = true;
+      }
+    })
   }
 
   ngOnDestroy() {
