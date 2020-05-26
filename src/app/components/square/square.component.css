@@ -22,3 +22,7 @@
 .visited {
   background-color: green;
 }
+
+.shortestPath {
+  background-color: orange;
+}

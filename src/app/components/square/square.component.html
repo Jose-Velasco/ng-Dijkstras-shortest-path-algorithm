@@ -1,3 +1,8 @@
 <div class="square"
-    [ngClass]="{startSquare: startSquareColor, wallSquare: wallSquareColor, endSquare: endSquareColor, visited: hasVisited }"
-    ></div>
+    [ngClass]="{
+      startSquare: startSquareColor,
+      wallSquare: wallSquareColor,
+      endSquare: endSquareColor,
+      visited: hasBeenVisited && !isOnShortestPath,
+      shortestPath: isOnShortestPath}">
+</div>

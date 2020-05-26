@@ -17,34 +17,53 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
   private _orderOfVisitedNodes: number[];
 
   constructor(private squareStatusServ: SquareStatusService) {
-    super(18);
+    // super(18);
+    super(100);
     this._graph = this.getGraph();
     this._edgeCount = this.getedgeCount();
     this._numOfNodes = this.getnumofNodes();
     this.constructNodeEdges();
   }
 
+  initiateVisualAlgorithm(): void {
+    if(this.squareStatusServ.startNode === null || this.squareStatusServ.endNode === null) {
+      console.log("Error: select a start and end node");
+      return;
+    }
+    const pathing: number[] = this.reconstructPath(this.squareStatusServ.startNode, this.squareStatusServ.endNode);
+    const isEndNodeReachable: boolean = (pathing.length !== 0);
+    if(isEndNodeReachable) {
+      console.log(pathing);
+      this.squareStatusServ.onVisualizeSearch(this._orderOfVisitedNodes, pathing);
+      return;
+    }
+    console.log("is end node reachable: ", isEndNodeReachable);
+  }
+
   /**
    * algorithm to handle linking each node to its neighbors.
    */
   constructNodeEdges(): void {
-    let counter = 0;
-    let nodesPerRow = 6;
+    // let nodesPerRow = 6;
+    let nodesPerRow = 10;
     for(let i = 0; i < this._numOfNodes; i++) {
       // BELOW NODE
       // as long as it is not the last row because
       // there are no nodes below the nodes in th last row
       if((i) < (this._numOfNodes - nodesPerRow)) {
-        // used to add edges from a node to the one below it.
+        // used to add edges from current node to the one below it.
         this.addEdge(i, i + nodesPerRow, 1);
       }
       // ABOVE NODE
       // as long as it is not the first row.
       if(i >= nodesPerRow) {
-        // added edges from a node to the on above it.
+        // added edges from current node to the one above it.
         this.addEdge(i, i - nodesPerRow, 1);
       }
+      // LEFT OF NODE
+      // as long as it is not the first node in the row.
       if(i % nodesPerRow !== 0) {
+        // add edge from current node to the one directly to the left of it
         this.addEdge(i , i - 1, 1);
       }
       /**
@@ -53,14 +72,12 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
        * first node of the NEXT row
        */
       if(i % nodesPerRow === (nodesPerRow - 1)) {
-        counter++;
         continue;
       }
       // RIGHT OF NODE
       // add edge from current node to the one directly to the right of it
       // as long as it is not the last node in a row.
       this.addEdge(i, i+1, 1);
-      counter++;
     }
   }
 
@@ -180,15 +197,4 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
   //   this.squareStatusServ.onVisualizeSearch(this._orderOfVisitedNodes);
   //   return isEndNodeReachable;
   // }
-
-  initiateVisualAlgorithm(): void {
-    const pathing: number[] = this.reconstructPath(0, 11);
-    const isEndNodeReachable: boolean = (pathing.length !== 0);
-    if(isEndNodeReachable) {
-      this.squareStatusServ.onVisualizeSearch(this._orderOfVisitedNodes);
-      return;
-    }
-    console.log("is end node reachable: ", isEndNodeReachable);
-  }
-
 }
