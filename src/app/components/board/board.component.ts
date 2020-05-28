@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { SquareStatusService } from '../../services/square-status.service';
 import { DijkstrasAlog } from 'src/app/services/dijkstrasAlog.service';
 import { SquareComponent } from '../square/square.component';
@@ -9,17 +9,13 @@ import { SquareEventData } from 'src/app/shared/squareEventData.model';
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnDestroy {
   isSKeydown: boolean = false;
   isEKeydown: boolean = false;
   hasSOrEKeyPressed: boolean = false;
   boardWidth: number = 64
   boardHeight: number = 64
   squares: number[] = [];
-  // isStartingLocation: boolean;
-  // isEditMode: boolean;
-  // isEndingLocation: boolean;
-  // testDijkstra: DijkstrasShortestPathAdjacencyListWithDHeap;
 
   constructor(
     private squareStatServ: SquareStatusService,
@@ -30,12 +26,6 @@ export class BoardComponent implements OnInit {
       // old value was  ^^^^1058
       this.squares.push(i);
     }
-
-    // for (let y = 0; y < this.boardHeight; y++) {
-    //   for (let x = 0; x < this.boardWidth; x++) {
-    //     this.squares.push
-    //   }
-    // }
     console.log(this.dijkstrasServ.gettestgraph());
   }
 
@@ -91,5 +81,8 @@ export class BoardComponent implements OnInit {
       }
       this.squareStatServ.activatedEmitterSquare.next(squareResetValues);
     }
+  }
+  ngOnDestroy() {
+    console.log("board was destroyed!!");
   }
 }

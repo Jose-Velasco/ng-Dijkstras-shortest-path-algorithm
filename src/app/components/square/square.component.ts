@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SquareStatusService } from 'src/app/services/square-status.service';
 import { Subscription } from 'rxjs';
 import { SquareEventData } from 'src/app/shared/squareEventData.model';
+import { ResetSquareData } from 'src/app/shared/resetSquareData.model';
 
 @Component({
   selector: 'app-square',
@@ -11,13 +12,11 @@ import { SquareEventData } from 'src/app/shared/squareEventData.model';
 export class SquareComponent implements OnInit, OnDestroy {
   private activatedSquareSub: Subscription;
   private squareStatusSub: Subscription;
+  private resetSquPropertiesSub: Subscription;
   @Input() squareIndex: number;
-  clickedSquare: number;
   startSquareColor: boolean = false;
   wallSquareColor: boolean = false;
   endSquareColor: boolean = false;
-  xCoordinate: number;
-  yCoordinate: number;
   hasBeenVisited: boolean = false;
   isOnShortestPath: boolean = false;
 
@@ -29,11 +28,16 @@ export class SquareComponent implements OnInit, OnDestroy {
     });
 
     this.squareStatusSub = this.squareStatusServ.onSquareVisited.subscribe((nodeIndex: number) => {
+      console.log(nodeIndex);
       if(this.hasBeenVisited && (nodeIndex == this.squareIndex)) {
-        console.log("PATH SHORTEST from square component ts");
         this.isOnShortestPath = true;
       } else if (this.squareIndex == nodeIndex) {
         this.hasBeenVisited = true;
+      }
+    });
+    this.resetSquPropertiesSub = this.squareStatusServ.onResetSquareproperties.subscribe((fullResetData: ResetSquareData) => {
+      if(fullResetData.fullReset) {
+        this.resetSquareProperties(fullResetData.nodesIndexToBeReseted);
       }
     });
   }
@@ -61,7 +65,18 @@ export class SquareComponent implements OnInit, OnDestroy {
     }
   }
 
+  resetSquareProperties(nodeIndex: number) {
+    if(nodeIndex === this.squareIndex) {
+      this.startSquareColor = false;
+      this.wallSquareColor = false;
+      this.endSquareColor = false;
+      this.hasBeenVisited = false;
+      this.isOnShortestPath = false;
+    }
+  }
+
   ngOnDestroy() {
+    console.log("sqaure destytored");
     this.activatedSquareSub.unsubscribe();
     this.squareStatusSub.unsubscribe();
   }

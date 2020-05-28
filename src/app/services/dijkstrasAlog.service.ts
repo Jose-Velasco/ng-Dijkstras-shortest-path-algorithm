@@ -28,8 +28,10 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
   initiateVisualAlgorithm(): void {
     if(this.squareStatusServ.startNode === null || this.squareStatusServ.endNode === null) {
       console.log("Error: select a start and end node");
+      alert("Error: select a start and end node");
       return;
     }
+    this.squareStatusServ.stopAnimation = false;
     const pathing: number[] = this.reconstructPath(this.squareStatusServ.startNode, this.squareStatusServ.endNode);
     const isEndNodeReachable: boolean = (pathing.length !== 0);
     if(isEndNodeReachable) {

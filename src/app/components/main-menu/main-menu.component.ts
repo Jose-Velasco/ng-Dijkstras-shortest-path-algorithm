@@ -19,10 +19,8 @@ export class MainMenuComponent implements OnInit {
   }
 
   refreshComponent() {
-    this.squareStatusServ.resetBoardData();
-    this.router.navigateByUrl('/board', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['']);
-  });
+    // this.squareStatusServ.stopAnimation = true;
+    this.squareStatusServ.resetBoardData(true);
   }
 
   startVisualization() {
