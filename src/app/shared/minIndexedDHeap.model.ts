@@ -43,6 +43,8 @@ export class MinIndexedDHeap {
   constructor(degree: number, maxSize: number) {
     this.degree = Math.max(2, degree);
     this.numElem = Math.max(this.degree + 1, maxSize);
+    // this.sz is the current number of elements in the heap
+    // so legth of the array would be: this.sz - 1
     this.sz = 0;
 
     // this should be an array of numElem size
@@ -108,8 +110,15 @@ export class MinIndexedDHeap {
     return this.values[key];
   }
 
+  /**
+   * deletes the node with the key index: key
+   * @param key is the index of the node to be deleted
+   */
   public delete(key: number) {
     const i: number = this.positionMap[key];
+    // --this.sz resizes the heap which gives us the index of the last element in the array
+    // swaps the node being deleted to the bottom right most postion
+    // in the heap(In other words the last element in the array.)
     this.swap(i, --this.sz);
     this.sink(i);
     this.swim(i);
@@ -174,9 +183,21 @@ export class MinIndexedDHeap {
     return index;
   }
 
+  /**
+   * the values in the array are not being swaped but only swaping index values.
+   * the values array is index by the key index not the node index so the values array
+   * does not need to be changed. this swaps two nodes in the queue using their index values
+   *
+   * @param i position in que
+   * @param j position in que
+   */
   private swap(i: number, j: number): void {
+    // first update the positions of where key index values
+    // are found in the index priority queue
     this.positionMap[this.inverseMap[j]] = i;
     this.positionMap[this.inverseMap[i]] = j;
+    // then update the key index values associated with nodes i and j
+    // in the inverse map
     let tmp: number = this.inverseMap[i];
     this.inverseMap[i] = this.inverseMap[j];
     this.inverseMap[j] = tmp;

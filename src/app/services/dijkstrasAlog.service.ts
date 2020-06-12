@@ -15,19 +15,30 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
   private _prev: number[];
   private _graph: Edge[][];
   private _orderOfVisitedNodes: number[];
+  private _nodeIsWall: boolean[];
 
   constructor(private squareStatusServ: SquareStatusService) {
     // super(18);
+    // call super with the number of nodes/squares you want in the board
     super(100);
     this._graph = this.getGraph();
     this._edgeCount = this.getedgeCount();
     this._numOfNodes = this.getnumofNodes();
     this.constructNodeEdges();
+    this.squareStatusServ.initializeNodeIsWallBoolArrayValues(this._numOfNodes);
+  }
+
+  getdist(): number[] {
+    return this._dist;
+  }
+
+   gettestgraph() {
+    return this._graph;
   }
 
   initiateVisualAlgorithm(): void {
     if(this.squareStatusServ.startNode === null || this.squareStatusServ.endNode === null) {
-      console.log("Error: select a start and end node");
+      console.error("Error: select a start and end node");
       alert("Error: select a start and end node");
       return;
     }
@@ -94,7 +105,7 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
     // to vist
     const degree = Math.floor(this._edgeCount / this._numOfNodes);
     // a min indexed d-arry heap to avoid duplicate nodes in the priority que
-    // which makes the algarith faster (this is what makes the eager approach)
+    // which makes the algorithm faster (this is what makes the eager approach)
     const ipq: MinIndexedDHeap = new MinIndexedDHeap(degree, this._numOfNodes);
     ipq.insert(start, 0.0);
 
@@ -179,14 +190,6 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
     }
     path.reverse();
     return path;
-  }
-
-  getdist(): number[] {
-    return this._dist;
-  }
-
-   gettestgraph() {
-    return this._graph;
   }
 
   // visualizeSearch(): void {

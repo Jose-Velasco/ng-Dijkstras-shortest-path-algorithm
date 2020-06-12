@@ -18,6 +18,7 @@ export class SquareStatusService {
   private _shortestPath: number[] = [];
   private _stopAnimation: boolean = false;
   private _animationFramesPerMilSec: number = 150;
+  private _nodeIsWall: boolean[] = [];
 
   constructor() { }
 
@@ -46,6 +47,30 @@ export class SquareStatusService {
     this._endNode = nodeIndex;
   }
 
+  get nodeIsWall(): boolean[] {
+    return this._nodeIsWall;
+  }
+
+  /**
+   * only call once to initialize array with the amount of bool equal
+   * to the number of nodes in the graph
+   * @param numOfNodes the number of nodes in the graph
+   */
+  initializeNodeIsWallBoolArrayValues(numOfNodes: number): void {
+    for(let i = 0; i < numOfNodes; i++) {
+      this.nodeIsWall[i] = false;
+    }
+  }
+
+  /**
+   * used to clear all current walls
+   */
+  resetNodeIsWallArray(): void {
+    for(let i = 0; i < this.nodeIsWall.length; i++) {
+      this.nodeIsWall[i] = false;
+    }
+  }
+
   resetBoardData(fullReset: boolean): void {
     if(fullReset) {
       this.stopAnimation = true;
@@ -67,6 +92,7 @@ export class SquareStatusService {
       this.endNode = null;
       this._orderOfVisitedNodes = [];
       this._shortestPath = [];
+      this.resetNodeIsWallArray();
     }
   }
 
