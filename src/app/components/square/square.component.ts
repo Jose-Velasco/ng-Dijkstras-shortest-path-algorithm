@@ -50,6 +50,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   }
 
   handleStartEndNodeEvent(sqEventData: SquareEventData) {
+    // CURRENTLY BORKEN
     // to make sure there is only one start and end node
     if(sqEventData.sKeyPressed) {
       this.startSquareColor = false;
@@ -75,8 +76,9 @@ export class SquareComponent implements OnInit, OnDestroy {
   handleWallNodeEvent(sqEventData: SquareEventData) {
     if(this.squareIndex === sqEventData.nodeindex && sqEventData.noKeyPressedWithLeftMouseClick) {
       this.isWallSquare = true;
+    } else if(this.squareIndex === sqEventData.nodeindex && sqEventData.noKeyPressedWithRightMouseClick) {
+      this.isWallSquare = false;
     }
-
   }
 
   resetSquareTouchedProperties(nodeIndex: number) {

@@ -1,9 +1,12 @@
 <div class="main">
+  <!-- using false on events allows us to disable the event's default behaviour
+        ex. the right click menu -->
     <app-square
       *ngFor="let square of squares; let i = index"
       [squareIndex]="i"
       (click)="onSquareClicked(i)"
-      (mouseenter)="onTestMouseLeftMouseClick($event, i)"
+      (mouseenter)="CheckMouseIfLeftOrRightButtonIsHeld($event, i)"
+      (contextmenu)="false"
       (dragstart)="false"
       (drop)="false">
     </app-square>

@@ -87,6 +87,21 @@ export class SquareStatusService {
     this.indexsOfWhichNodeIsWall.push(nodeIndex);
   }
 
+  handleRemovingWallNodes(nodeIndex: number): void {
+    for(let i = 0; i < this.indexsOfWhichNodeIsWall.length; i++) {
+      if(this.indexsOfWhichNodeIsWall[i] === nodeIndex) {
+        this.nodeIsWall[nodeIndex] = false;
+        this.indexsOfWhichNodeIsWall.splice(nodeIndex, 1);
+        let squareClickedData: SquareEventData = {
+          nodeindex: nodeIndex,
+          noKeyPressedWithRightMouseClick: true,
+        };
+        this.activatedEmitterSquare.next(squareClickedData);
+        return;
+      }
+    }
+  }
+
   resetBoardData(fullReset: boolean): void {
     if(fullReset) {
       this.stopAnimation = true;

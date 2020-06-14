@@ -46,6 +46,7 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
       return;
     }
     this.squareStatusServ.stopAnimation = false;
+    // get array of which nodes are currently walls
     this._nodeIsWall = this.squareStatusServ.nodeIsWall;
     const pathing: number[] = this.reconstructPath(this.squareStatusServ.startNode, this.squareStatusServ.endNode);
     const isEndNodeReachable: boolean = (pathing.length !== 0);
@@ -132,11 +133,15 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
       // used to recreate visual animation
       let minValue: any = ipq.pollMinValue();
 
+      // if the current node is a 'wall' then we do not
+      // then there is no need to visit it or it's edges
       if(this._nodeIsWall[nodeId]) {
         continue;
       }
+
+      // this allows us to track the order each node was visited
+      // for the animate/visualize the search pathing and shortest path animation
       this._orderOfVisitedNodes.push(nodeId);
-      // wall logic might go here after polling from the IPQ
 
       // we already found a better path before we got to
       // processing this node so we can ignore it
@@ -153,6 +158,17 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
          * current iteration of the forEach loop (lambda expression)
          */
         if(visited[edge.to]) {
+          return;
+        }
+
+        /**
+         * if a node has an edge to a 'wall' node
+         * then there is no need to take the edge to that node to
+         * see if taking that node will provide us the shortest path to the
+         * end node. Additionally there is no need to keep track of
+         * the shortest path(cost) to that 'wall' node
+         */
+        if(this._nodeIsWall[edge.to]) {
           return;
         }
 

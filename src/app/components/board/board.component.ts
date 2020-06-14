@@ -76,7 +76,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   //   }, 500);
   // }
 
-  onTestMouseLeftMouseClick(event: MouseEvent, nodeIndex: number) {
+  CheckMouseIfLeftOrRightButtonIsHeld(event: MouseEvent, nodeIndex: number) {
     if(this.isEKeydown || this.isSKeydown || event.buttons === 0) {
       return;
     }
@@ -84,9 +84,12 @@ export class BoardComponent implements OnInit, OnDestroy {
       let squareClickedData: SquareEventData = {
         nodeindex: nodeIndex,
         noKeyPressedWithLeftMouseClick: true
-      }
+      };
       this.squareStatServ.activatedEmitterSquare.next(squareClickedData);
       this.squareStatServ.handleAddingWallNodes(nodeIndex);
+    } else if(event.buttons === 2) {
+      console.log("right mouse button was held index = ", nodeIndex);
+      this.squareStatServ.handleRemovingWallNodes(nodeIndex);
     }
   }
 
