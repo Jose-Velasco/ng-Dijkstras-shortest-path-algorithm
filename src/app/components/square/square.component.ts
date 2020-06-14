@@ -15,7 +15,7 @@ export class SquareComponent implements OnInit, OnDestroy {
   private resetSquPropertiesSub: Subscription;
   @Input() squareIndex: number;
   startSquareColor: boolean = false;
-  wallSquareColor: boolean = false;
+  isWallSquare: boolean = false;
   endSquareColor: boolean = false;
   hasBeenVisited: boolean = false;
   isOnShortestPath: boolean = false;
@@ -24,11 +24,18 @@ export class SquareComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.activatedSquareSub = this.squareStatusServ.activatedEmitterSquare.subscribe((squareEventData: SquareEventData) => {
-      this.handleStartEndNodeEvent(squareEventData);
+      // fix to handle only one start and end square visually
+      if(squareEventData.nodeindex === this.squareIndex) {
+        if(squareEventData.sKeyPressed || squareEventData.EKeyPressed) {
+          this.handleStartEndNodeEvent(squareEventData);
+        } else if(squareEventData.noKeyPressedWithLeftMouseClick || squareEventData.noKeyPressedWithRightMouseClick) {
+          this.handleWallNodeEvent(squareEventData);
+        }
+      }
     });
 
     this.squareStatusSub = this.squareStatusServ.onSquareVisited.subscribe((nodeIndex: number) => {
-      console.log(nodeIndex);
+      // console.log(nodeIndex);
       if(this.hasBeenVisited && (nodeIndex == this.squareIndex)) {
         this.isOnShortestPath = true;
       } else if (this.squareIndex == nodeIndex) {
@@ -37,7 +44,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     });
     this.resetSquPropertiesSub = this.squareStatusServ.onResetSquareproperties.subscribe((fullResetData: ResetSquareData) => {
       if(fullResetData.fullReset) {
-        this.resetSquareProperties(fullResetData.nodesIndexToBeReseted);
+        this.resetSquareTouchedProperties(fullResetData.nodesIndexToBeReseted);
       }
     });
   }
@@ -65,10 +72,17 @@ export class SquareComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetSquareProperties(nodeIndex: number) {
+  handleWallNodeEvent(sqEventData: SquareEventData) {
+    if(this.squareIndex === sqEventData.nodeindex && sqEventData.noKeyPressedWithLeftMouseClick) {
+      this.isWallSquare = true;
+    }
+
+  }
+
+  resetSquareTouchedProperties(nodeIndex: number) {
     if(nodeIndex === this.squareIndex) {
       this.startSquareColor = false;
-      this.wallSquareColor = false;
+      this.isWallSquare = false;
       this.endSquareColor = false;
       this.hasBeenVisited = false;
       this.isOnShortestPath = false;
@@ -79,5 +93,6 @@ export class SquareComponent implements OnInit, OnDestroy {
     console.log("sqaure destytored");
     this.activatedSquareSub.unsubscribe();
     this.squareStatusSub.unsubscribe();
+    this.resetSquPropertiesSub.unsubscribe();
   }
 }

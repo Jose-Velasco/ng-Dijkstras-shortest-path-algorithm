@@ -19,6 +19,7 @@ export class SquareStatusService {
   private _stopAnimation: boolean = false;
   private _animationFramesPerMilSec: number = 150;
   private _nodeIsWall: boolean[] = [];
+  private _indexsOfWhichNodeIsWall: number[] = [];
 
   constructor() { }
 
@@ -51,6 +52,10 @@ export class SquareStatusService {
     return this._nodeIsWall;
   }
 
+  get indexsOfWhichNodeIsWall(): number[] {
+    return this._indexsOfWhichNodeIsWall;
+  }
+
   /**
    * only call once to initialize array with the amount of bool equal
    * to the number of nodes in the graph
@@ -65,35 +70,71 @@ export class SquareStatusService {
   /**
    * used to clear all current walls
    */
-  resetNodeIsWallArray(): void {
-    for(let i = 0; i < this.nodeIsWall.length; i++) {
-      this.nodeIsWall[i] = false;
+  resetNodeAllIsWallArray(): void {
+    for(let i = this.indexsOfWhichNodeIsWall.length - 1; 0 <= i; i--) {
+      this.nodeIsWall[this.indexsOfWhichNodeIsWall[i]] = false;
+      this.indexsOfWhichNodeIsWall.pop();
     }
+  }
+
+  // might have to check here to make sure wall being added is not a start or end node
+  handleAddingWallNodes(nodeIndex: number): void {
+    // this prevents from having duplicate nodes indexs that are walls
+    if(this.indexsOfWhichNodeIsWall.includes(nodeIndex)) {
+      return;
+    }
+    this.nodeIsWall[nodeIndex] = true;
+    this.indexsOfWhichNodeIsWall.push(nodeIndex);
   }
 
   resetBoardData(fullReset: boolean): void {
     if(fullReset) {
       this.stopAnimation = true;
-      let resetDataValues: ResetSquareData;
+      let resetDataValues: ResetSquareData = {
+        fullReset: true,
+        nodesIndexToBeReseted: null
+      };
       let startAndEndNode: number[] = [this.startNode, this.endNode];
+      let indexOfNodesToBeReset: number[] = this.createArrayOfNodesToBeReseted();
       // used plus to to account for the start and end node
-      for(let i = 0; i < (this._orderOfVisitedNodes.length + startAndEndNode.length); i++) {
-        resetDataValues = {
-          fullReset: true,
-          nodesIndexToBeReseted: this._orderOfVisitedNodes[i]
-        }
+      // for(let i = 0; i < (this._orderOfVisitedNodes.length + startAndEndNode.length); i++) {
+      //   resetDataValues = {
+      //     fullReset: true,
+      //     nodesIndexToBeReseted: this._orderOfVisitedNodes[i]
+      //   }
+      //   this._onResetSquareproperties.next(resetDataValues);
+      //   if(i < startAndEndNode.length) {
+      //     resetDataValues.nodesIndexToBeReseted = startAndEndNode[i];
+      //     this._onResetSquareproperties.next(resetDataValues);
+      //   }
+      // }
+      for(let i = 0; i < indexOfNodesToBeReset.length; i++) {
+        resetDataValues.nodesIndexToBeReseted = indexOfNodesToBeReset[i];
         this._onResetSquareproperties.next(resetDataValues);
-        if(i < startAndEndNode.length) {
-          resetDataValues.nodesIndexToBeReseted = startAndEndNode[i];
-          this._onResetSquareproperties.next(resetDataValues);
-        }
       }
+      console.log(indexOfNodesToBeReset);
       this.startNode = null;
       this.endNode = null;
       this._orderOfVisitedNodes = [];
       this._shortestPath = [];
-      this.resetNodeIsWallArray();
+      this.resetNodeAllIsWallArray();
     }
+  }
+
+  createArrayOfNodesToBeReseted(): number[] {
+    // might be duplicate node index between _orderOfVisitedNodes _indexsOfWhichNodeIsWall
+    // but once 'wall' check is added to dijkstras this might not be an issue
+    let nodesToReset: number[] = [
+      ...this._orderOfVisitedNodes,
+      ...this._indexsOfWhichNodeIsWall,
+    ];
+    if(this.startNode != null) {
+      nodesToReset.push(this.startNode);
+    }
+    if(this.endNode != null) {
+      nodesToReset.push(this.endNode);
+    }
+    return nodesToReset;
   }
 
   // onVisualizeSearch(orderOfVisitedNodes: number[], shortestPath: number[]): void {

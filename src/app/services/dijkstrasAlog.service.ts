@@ -36,6 +36,9 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
     return this._graph;
   }
 
+  /**
+   * handles the start of the animation when start is pressed with start and end nodes set
+   */
   initiateVisualAlgorithm(): void {
     if(this.squareStatusServ.startNode === null || this.squareStatusServ.endNode === null) {
       console.error("Error: select a start and end node");
@@ -43,6 +46,7 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
       return;
     }
     this.squareStatusServ.stopAnimation = false;
+    this._nodeIsWall = this.squareStatusServ.nodeIsWall;
     const pathing: number[] = this.reconstructPath(this.squareStatusServ.startNode, this.squareStatusServ.endNode);
     const isEndNodeReachable: boolean = (pathing.length !== 0);
     if(isEndNodeReachable) {
@@ -126,8 +130,13 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
       visited[nodeId] = true;
       // array that holds the order each node was visted
       // used to recreate visual animation
-      this._orderOfVisitedNodes.push(nodeId);
       let minValue: any = ipq.pollMinValue();
+
+      if(this._nodeIsWall[nodeId]) {
+        continue;
+      }
+      this._orderOfVisitedNodes.push(nodeId);
+      // wall logic might go here after polling from the IPQ
 
       // we already found a better path before we got to
       // processing this node so we can ignore it

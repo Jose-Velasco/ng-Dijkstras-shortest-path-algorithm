@@ -41,6 +41,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     }
   }
 
+  // handles on relase of 's' or 'e' key
   @HostListener("document:keyup", ["$event"])
   onsssUpdateStartEndNode(event: KeyboardEvent) {
     this.isSKeydown = false;
@@ -63,6 +64,9 @@ export class BoardComponent implements OnInit, OnDestroy {
       }
       this.squareStatServ.activatedEmitterSquare.next(squareClickedData);
     }
+    // else if(!this.isEKeydown && !this.isSKeydown) {
+    //   console.log("node clicked = ",index);
+    // }
   }
 
   //  need to find a way to hold left mouse button to color squares faster
@@ -72,7 +76,23 @@ export class BoardComponent implements OnInit, OnDestroy {
   //   }, 500);
   // }
 
+  onTestMouseLeftMouseClick(event: MouseEvent, nodeIndex: number) {
+    if(this.isEKeydown || this.isSKeydown || event.buttons === 0) {
+      return;
+    }
+    if(event.buttons === 1) {
+      let squareClickedData: SquareEventData = {
+        nodeindex: nodeIndex,
+        noKeyPressedWithLeftMouseClick: true
+      }
+      this.squareStatServ.activatedEmitterSquare.next(squareClickedData);
+      this.squareStatServ.handleAddingWallNodes(nodeIndex);
+    }
+  }
+
+  // this might be an unses func delete later
   handleResetActiveKeypressesValues(): void {
+    console.log("In board componetn: handleResetACtiveKey..");
     if(this.hasSOrEKeyPressed) {
       const squareResetValues: SquareEventData = {
         nodeindex: -1,

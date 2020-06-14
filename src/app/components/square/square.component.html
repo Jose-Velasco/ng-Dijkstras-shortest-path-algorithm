@@ -1,7 +1,7 @@
 <div class="square"
     [ngClass]="{
       startSquare: startSquareColor,
-      wallSquare: wallSquareColor,
+      wallSquare: isWallSquare,
       endSquare: endSquareColor,
       visited: hasBeenVisited && !isOnShortestPath,
       shortestPath: isOnShortestPath}">
