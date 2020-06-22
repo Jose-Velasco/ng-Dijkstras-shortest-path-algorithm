@@ -87,16 +87,24 @@ export class SquareStatusService {
     this.indexsOfWhichNodeIsWall.push(nodeIndex);
   }
 
+  /**
+   * checks if the node 'wall' being removed is a node marked as a wall and removes it
+   * from the indexsOfWhichNodeIsWall.
+   * notice the usage of nodeIndex and 'i' when marking a node as not being a 'wall'.
+   * In the for loop 'i' represents the index location of the node being removed in the
+   * indexsOfWhichNodeIsWall.
+   * @param nodeIndex index of node to be removed from indexsOfWhichNodeIsWall array if it has been marked as a wall
+   */
   handleRemovingWallNodes(nodeIndex: number): void {
     for(let i = 0; i < this.indexsOfWhichNodeIsWall.length; i++) {
       if(this.indexsOfWhichNodeIsWall[i] === nodeIndex) {
-        this.nodeIsWall[nodeIndex] = false;
-        this.indexsOfWhichNodeIsWall.splice(nodeIndex, 1);
         let squareClickedData: SquareEventData = {
           nodeindex: nodeIndex,
           noKeyPressedWithRightMouseClick: true,
         };
         this.activatedEmitterSquare.next(squareClickedData);
+        this.nodeIsWall[nodeIndex] = false;
+        this.indexsOfWhichNodeIsWall.splice(i, 1);
         return;
       }
     }
@@ -109,7 +117,7 @@ export class SquareStatusService {
         fullReset: true,
         nodesIndexToBeReseted: null
       };
-      let startAndEndNode: number[] = [this.startNode, this.endNode];
+      // let startAndEndNode: number[] = [this.startNode, this.endNode];
       let indexOfNodesToBeReset: number[] = this.createArrayOfNodesToBeReseted();
       // used plus to to account for the start and end node
       // for(let i = 0; i < (this._orderOfVisitedNodes.length + startAndEndNode.length); i++) {

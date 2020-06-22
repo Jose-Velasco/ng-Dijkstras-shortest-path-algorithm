@@ -26,7 +26,6 @@ export class BoardComponent implements OnInit, OnDestroy {
       // old value was  ^^^^1058
       this.squares.push(i);
     }
-    console.log(this.dijkstrasServ.gettestgraph());
   }
 
   @HostListener("document:keypress", ["$event"])
@@ -80,6 +79,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     if(this.isEKeydown || this.isSKeydown || event.buttons === 0) {
       return;
     }
+    // this 1 in this represents left mouse click
     if(event.buttons === 1) {
       let squareClickedData: SquareEventData = {
         nodeindex: nodeIndex,
@@ -87,13 +87,13 @@ export class BoardComponent implements OnInit, OnDestroy {
       };
       this.squareStatServ.activatedEmitterSquare.next(squareClickedData);
       this.squareStatServ.handleAddingWallNodes(nodeIndex);
+    // the 2 represents right mouse click
     } else if(event.buttons === 2) {
-      console.log("right mouse button was held index = ", nodeIndex);
       this.squareStatServ.handleRemovingWallNodes(nodeIndex);
     }
   }
 
-  // this might be an unses func delete later
+  // this might be an useless func delete later
   handleResetActiveKeypressesValues(): void {
     console.log("In board componetn: handleResetACtiveKey..");
     if(this.hasSOrEKeyPressed) {

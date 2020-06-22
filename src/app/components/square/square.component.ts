@@ -25,12 +25,17 @@ export class SquareComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.activatedSquareSub = this.squareStatusServ.activatedEmitterSquare.subscribe((squareEventData: SquareEventData) => {
       // fix to handle only one start and end square visually
-      if(squareEventData.nodeindex === this.squareIndex) {
-        if(squareEventData.sKeyPressed || squareEventData.EKeyPressed) {
-          this.handleStartEndNodeEvent(squareEventData);
-        } else if(squareEventData.noKeyPressedWithLeftMouseClick || squareEventData.noKeyPressedWithRightMouseClick) {
-          this.handleWallNodeEvent(squareEventData);
-        }
+      // if(this.squareIndex === squareEventData.nodeindex) {
+      //   if(squareEventData.sKeyPressed || squareEventData.EKeyPressed) {
+      //     this.handleStartEndNodeEvent(squareEventData);
+      //   } else if(squareEventData.noKeyPressedWithLeftMouseClick || squareEventData.noKeyPressedWithRightMouseClick) {
+      //     this.handleWallNodeEvent(squareEventData);
+      //   }
+      // }
+      if(squareEventData.noKeyPressedWithLeftMouseClick || squareEventData.noKeyPressedWithRightMouseClick) {
+        this.handleWallNodeEvent(squareEventData);
+      } else if(squareEventData.sKeyPressed || squareEventData.EKeyPressed) {
+        this.handleStartEndNodeEvent(squareEventData);
       }
     });
 
