@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { SquareEventData } from '../shared/squareEventData.model';
-import { ResetSquareData } from '../shared/resetSquareData.model';
+import { ResetSquareData, SquareNodesOptionProperties } from '../shared/resetSquareData.model';
+import { StartEndNodeCheckerData } from '../shared/startEndNodeCheckerData.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,27 @@ export class SquareStatusService {
   }
 
   /**
+   * returns a StartEndNodeCheckerData obj that has all values set to false
+   * if the indexOfNode is not a start or end node
+   * @param indexOfNode index of node to be checked
+   */
+  checkIsStartOrEndNode(indexOfNode: number): StartEndNodeCheckerData {
+    let checkIsStartOrEndNodeData: StartEndNodeCheckerData = {
+      isStartOrEndNode: false,
+      isStartNode: false,
+      isEndNode: false
+    }
+
+    if((this.startNode === indexOfNode) || (this.endNode === indexOfNode)) {
+      let isEqualToStartNode: boolean = this.startNode === indexOfNode;
+      checkIsStartOrEndNodeData.isStartOrEndNode = true;
+      checkIsStartOrEndNodeData.isStartNode = isEqualToStartNode;
+      checkIsStartOrEndNodeData.isEndNode = !isEqualToStartNode;
+    }
+    return checkIsStartOrEndNodeData;
+  }
+
+  /**
    * only call once to initialize array with the amount of bool equal
    * to the number of nodes in the graph
    * @param numOfNodes the number of nodes in the graph
@@ -79,12 +101,42 @@ export class SquareStatusService {
 
   // might have to check here to make sure wall being added is not a start or end node
   handleAddingWallNodes(nodeIndex: number): void {
+    const startEndNodeData = this.checkIsStartOrEndNode(nodeIndex);
+    if(startEndNodeData.isStartOrEndNode) {
+      this.handleWallingOverAStartOrEndNode(nodeIndex, startEndNodeData.isStartNode);
+    }
     // this prevents from having duplicate nodes indexs that are walls
     if(this.indexsOfWhichNodeIsWall.includes(nodeIndex)) {
       return;
     }
     this.nodeIsWall[nodeIndex] = true;
     this.indexsOfWhichNodeIsWall.push(nodeIndex);
+  }
+
+  /**
+   * when creating a wall over a start or end node this handles
+   * making sure to update the node to not be a start or end node to avoid visual
+   * and logic bugs
+   * @param nodeIndex node/square index to be reset to default values
+   * @param isStartNode is the start node/square or the end node/sqaure
+   */
+  private handleWallingOverAStartOrEndNode(nodeIndex:number, isStartNode: boolean) {
+    if(!this.checkIsStartOrEndNode(nodeIndex).isStartOrEndNode) {
+      return;
+    }
+    let adjustSquareData: ResetSquareData = {
+      fullReset: false,
+      nodesIndexToBeReseted: nodeIndex,
+    }
+    if(isStartNode) {
+      this.startNode = null;
+      adjustSquareData.optionToBeAdjusted = SquareNodesOptionProperties.Start;
+      this._onResetSquareproperties.next(adjustSquareData);
+    } else {
+      this.endNode = null;
+      adjustSquareData.optionToBeAdjusted = SquareNodesOptionProperties.End;
+      this._onResetSquareproperties.next(adjustSquareData);
+    }
   }
 
   /**

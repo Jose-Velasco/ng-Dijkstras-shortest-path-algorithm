@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { SquareStatusService } from 'src/app/services/square-status.service';
 import { Subscription } from 'rxjs';
 import { SquareEventData } from 'src/app/shared/squareEventData.model';
-import { ResetSquareData } from 'src/app/shared/resetSquareData.model';
+import { ResetSquareData, SquareNodesOptionProperties } from 'src/app/shared/resetSquareData.model';
 
 @Component({
   selector: 'app-square',
@@ -40,7 +40,6 @@ export class SquareComponent implements OnInit, OnDestroy {
     });
 
     this.squareStatusSub = this.squareStatusServ.onSquareVisited.subscribe((nodeIndex: number) => {
-      // console.log(nodeIndex);
       if(this.hasBeenVisited && (nodeIndex == this.squareIndex)) {
         this.isOnShortestPath = true;
       } else if (this.squareIndex == nodeIndex) {
@@ -50,6 +49,8 @@ export class SquareComponent implements OnInit, OnDestroy {
     this.resetSquPropertiesSub = this.squareStatusServ.onResetSquareproperties.subscribe((fullResetData: ResetSquareData) => {
       if(fullResetData.fullReset) {
         this.resetSquareTouchedProperties(fullResetData.nodesIndexToBeReseted);
+      } else {
+        this.handleRestANodeProperties(fullResetData.nodesIndexToBeReseted, fullResetData.optionToBeAdjusted);
       }
     });
   }
@@ -93,6 +94,22 @@ export class SquareComponent implements OnInit, OnDestroy {
       this.endSquareColor = false;
       this.hasBeenVisited = false;
       this.isOnShortestPath = false;
+    }
+  }
+
+  handleRestANodeProperties(nodeIndex: number, optionToBeReset: SquareNodesOptionProperties): void {
+    if(this.squareIndex === nodeIndex) {
+      switch(optionToBeReset) {
+        case SquareNodesOptionProperties.Start:
+          this.startSquareColor = false;
+          break;
+        case SquareNodesOptionProperties.End:
+          this.endSquareColor = false;
+          break;
+        case SquareNodesOptionProperties.Wall:
+          this.isWallSquare = false;
+          break;
+      }
     }
   }
 
