@@ -79,6 +79,7 @@ export class SquareComponent implements OnInit, OnDestroy {
     }
   }
 
+  // handles wall nodes events visually
   handleWallNodeEvent(sqEventData: SquareEventData) {
     if(this.squareIndex === sqEventData.nodeindex && sqEventData.noKeyPressedWithLeftMouseClick) {
       this.isWallSquare = true;

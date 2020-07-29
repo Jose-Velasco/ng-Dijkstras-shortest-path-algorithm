@@ -162,6 +162,13 @@ export class SquareStatusService {
     }
   }
 
+  handleAddingStartEndNodes(squareEventData: SquareEventData) {
+    if(this.nodeIsWall[squareEventData.nodeindex]) {
+      this.handleRemovingWallNodes(squareEventData.nodeindex);
+    }
+    this.activatedEmitterSquare.next(squareEventData);
+  }
+
   resetBoardData(fullReset: boolean): void {
     if(fullReset) {
       this.stopAnimation = true;

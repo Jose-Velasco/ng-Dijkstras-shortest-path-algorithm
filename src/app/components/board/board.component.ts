@@ -54,14 +54,14 @@ export class BoardComponent implements OnInit, OnDestroy {
         nodeindex: index,
         sKeyPressed: true
       }
-      this.squareStatServ.activatedEmitterSquare.next(squareClickedData);
+      this.squareStatServ.handleAddingStartEndNodes(squareClickedData);
     } else if(this.isEKeydown && !this.isSKeydown) {
       this.hasSOrEKeyPressed = true;
       let squareClickedData: SquareEventData = {
         nodeindex: index,
         EKeyPressed: true,
       }
-      this.squareStatServ.activatedEmitterSquare.next(squareClickedData);
+      this.squareStatServ.handleAddingStartEndNodes(squareClickedData);
     }
     // else if(!this.isEKeydown && !this.isSKeydown) {
     //   console.log("node clicked = ",index);
