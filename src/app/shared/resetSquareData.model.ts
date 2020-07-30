@@ -1,7 +1,7 @@
 export interface ResetSquareData {
   fullReset: boolean;
   nodesIndexToBeReseted: number;
-  optionToBeAdjusted?: SquareNodesOptionProperties;
+  optionToBeAdjusted?: SquareNodesOptionProperties[];
 }
 
 export enum SquareNodesOptionProperties {

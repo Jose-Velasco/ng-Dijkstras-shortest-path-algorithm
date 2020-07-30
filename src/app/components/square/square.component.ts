@@ -50,7 +50,8 @@ export class SquareComponent implements OnInit, OnDestroy {
       if(fullResetData.fullReset) {
         this.resetSquareTouchedProperties(fullResetData.nodesIndexToBeReseted);
       } else {
-        this.handleRestANodeProperties(fullResetData.nodesIndexToBeReseted, fullResetData.optionToBeAdjusted);
+        // this.handleRestANodeProperties(fullResetData.nodesIndexToBeReseted, fullResetData.optionToBeAdjusted);
+        this.handlePartialReset(fullResetData);
       }
     });
   }
@@ -110,7 +111,19 @@ export class SquareComponent implements OnInit, OnDestroy {
         case SquareNodesOptionProperties.Wall:
           this.isWallSquare = false;
           break;
+        case SquareNodesOptionProperties.Visited:
+          this.hasBeenVisited = false;
+          break;
+        case SquareNodesOptionProperties.ShortestPath:
+          this.isOnShortestPath = false;
+          break;
       }
+    }
+  }
+
+  handlePartialReset(resetSquareData: ResetSquareData): void {
+    for(let i = 0; i < resetSquareData.optionToBeAdjusted.length; i++) {
+      this.handleRestANodeProperties(resetSquareData.nodesIndexToBeReseted, resetSquareData.optionToBeAdjusted[i]);
     }
   }
 

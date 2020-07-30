@@ -127,14 +127,15 @@ export class SquareStatusService {
     let adjustSquareData: ResetSquareData = {
       fullReset: false,
       nodesIndexToBeReseted: nodeIndex,
+      optionToBeAdjusted: []
     }
     if(isStartNode) {
       this.startNode = null;
-      adjustSquareData.optionToBeAdjusted = SquareNodesOptionProperties.Start;
+      adjustSquareData.optionToBeAdjusted.push(SquareNodesOptionProperties.Start);
       this._onResetSquareproperties.next(adjustSquareData);
     } else {
       this.endNode = null;
-      adjustSquareData.optionToBeAdjusted = SquareNodesOptionProperties.End;
+      adjustSquareData.optionToBeAdjusted.push(SquareNodesOptionProperties.End);
       this._onResetSquareproperties.next(adjustSquareData);
     }
   }
@@ -162,87 +163,80 @@ export class SquareStatusService {
     }
   }
 
-  handleAddingStartEndNodes(squareEventData: SquareEventData) {
+  handleAddingStartEndNodes(squareEventData: SquareEventData): void {
     if(this.nodeIsWall[squareEventData.nodeindex]) {
       this.handleRemovingWallNodes(squareEventData.nodeindex);
     }
     this.activatedEmitterSquare.next(squareEventData);
   }
 
+  /**
+   * True will wipe the whole board clean.
+   * false will ONLY wipe the square/node animation that occurs during dijkstras algorithm (path search),
+   * this will still keep nodes marked as walls or start/end nodes.
+   * @param fullReset true will reset all touched node values to untouched values(default)
+   */
   resetBoardData(fullReset: boolean): void {
+    this.stopAnimation = true;
+    let resetDataValues: ResetSquareData = {
+      fullReset: null,
+      nodesIndexToBeReseted: null
+    };
+    let indexOfNodesToBeReset: number[];
     if(fullReset) {
-      this.stopAnimation = true;
-      let resetDataValues: ResetSquareData = {
-        fullReset: true,
-        nodesIndexToBeReseted: null
-      };
-      // let startAndEndNode: number[] = [this.startNode, this.endNode];
-      let indexOfNodesToBeReset: number[] = this.createArrayOfNodesToBeReseted();
-      // used plus to to account for the start and end node
-      // for(let i = 0; i < (this._orderOfVisitedNodes.length + startAndEndNode.length); i++) {
-      //   resetDataValues = {
-      //     fullReset: true,
-      //     nodesIndexToBeReseted: this._orderOfVisitedNodes[i]
-      //   }
-      //   this._onResetSquareproperties.next(resetDataValues);
-      //   if(i < startAndEndNode.length) {
-      //     resetDataValues.nodesIndexToBeReseted = startAndEndNode[i];
-      //     this._onResetSquareproperties.next(resetDataValues);
-      //   }
-      // }
+      resetDataValues.fullReset = true;
+      indexOfNodesToBeReset = this.createArrayOfNodesToBeReseted(fullReset);
       for(let i = 0; i < indexOfNodesToBeReset.length; i++) {
         resetDataValues.nodesIndexToBeReseted = indexOfNodesToBeReset[i];
         this._onResetSquareproperties.next(resetDataValues);
       }
-      console.log(indexOfNodesToBeReset);
       this.startNode = null;
       this.endNode = null;
-      this._orderOfVisitedNodes = [];
-      this._shortestPath = [];
       this.resetNodeAllIsWallArray();
     }
+    if(!fullReset) {
+      resetDataValues.fullReset = false;
+      resetDataValues.optionToBeAdjusted = [SquareNodesOptionProperties.Visited, SquareNodesOptionProperties.ShortestPath];
+      indexOfNodesToBeReset = this.createArrayOfNodesToBeReseted(resetDataValues.fullReset);
+      for(let i = 0; i < indexOfNodesToBeReset.length; i++) {
+        resetDataValues.nodesIndexToBeReseted = indexOfNodesToBeReset[i];
+        this._onResetSquareproperties.next(resetDataValues);
+      }
+    }
+    this._orderOfVisitedNodes.length = 0;
+    this._shortestPath.length = 0;
   }
 
-  createArrayOfNodesToBeReseted(): number[] {
+  /**
+   *
+   * True value will return an array that contains all the nodes that had
+   * values that at some point were touch, in order to be used to fully reset all values.
+   * False value will return an array that contains only nodes that were changed
+   * during the animation.
+   * @param isFullReset true to get arrry for full reset
+   */
+  createArrayOfNodesToBeReseted(isFullReset: boolean): number[] {
     // might be duplicate node index between _orderOfVisitedNodes _indexsOfWhichNodeIsWall
     // but once 'wall' check is added to dijkstras this might not be an issue
-    let nodesToReset: number[] = [
-      ...this._orderOfVisitedNodes,
-      ...this._indexsOfWhichNodeIsWall,
-    ];
-    if(this.startNode != null) {
-      nodesToReset.push(this.startNode);
-    }
-    if(this.endNode != null) {
-      nodesToReset.push(this.endNode);
+    let nodesToReset: number[];
+    if(isFullReset) {
+      nodesToReset = [
+        ...this._orderOfVisitedNodes,
+        ...this._indexsOfWhichNodeIsWall,
+      ];
+      if(this.startNode != null) {
+        nodesToReset.push(this.startNode);
+      }
+      if(this.endNode != null) {
+        nodesToReset.push(this.endNode);
+      }
+    } else {
+      nodesToReset = [
+        ...this._orderOfVisitedNodes,
+      ];
     }
     return nodesToReset;
   }
-
-  // onVisualizeSearch(orderOfVisitedNodes: number[], shortestPath: number[]): void {
-  //   // pathing holds an array of the minimum distance cost to each node/square
-  //   // if the value is positive Infinity then the node was not visited
-  //   console.log("start ===", this._startNode);
-  //   console.log(this._endNode);
-  //   const pathing: number[] = orderOfVisitedNodes;
-
-  //   for(let i = 0; i < pathing.length; i++) {
-  //     setTimeout(() => {
-  //       this._onSquareVisited.next(pathing[i]);
-  //       if(i === pathing.length - 1) {
-  //         this.visualizeShortestPath(shortestPath);
-  //       }
-  //     }, 100 * i);
-  //   }
-  // }
-
-  // visualizeShortestPath(pathing: number[]): void {
-  //   for(let i = 0; i < pathing.length; i++) {
-  //     setTimeout(() => {
-  //       this._onSquareVisited.next(pathing[i]);
-  //     }, 300 * i);
-  //   }
-  // }
 
   onVisualizeSearch(orderOfVisitedNodes: number[], shortestPath: number[]): void {
     // pathing holds an array of the minimum distance cost to each node/square

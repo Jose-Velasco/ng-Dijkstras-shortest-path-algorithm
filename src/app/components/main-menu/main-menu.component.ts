@@ -23,6 +23,10 @@ export class MainMenuComponent implements OnInit {
     this.squareStatusServ.resetBoardData(true);
   }
 
+  clearSearchPathAnimation(): void {
+    this.squareStatusServ.resetBoardData(false);
+  }
+
   startVisualization() {
     this.dijkstrasAlgo.initiateVisualAlgorithm();
   }
