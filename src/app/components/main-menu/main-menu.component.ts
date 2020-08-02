@@ -34,6 +34,7 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   startVisualization() {
     if(!this.isAnimationInProgress) {
+      this.clearSearchPathAnimation();
       this.dijkstrasAlgo.initiateVisualAlgorithm();
     }
   }
