@@ -13,8 +13,8 @@ export class BoardComponent implements OnInit, OnDestroy {
   isSKeydown: boolean = false;
   isEKeydown: boolean = false;
   hasSOrEKeyPressed: boolean = false;
-  boardWidth: number = 64
-  boardHeight: number = 64
+  totalNumberOfSquares: number;
+  numberofSquaresPerRow: number;
   squares: number[] = [];
 
   constructor(
@@ -22,10 +22,26 @@ export class BoardComponent implements OnInit, OnDestroy {
     private dijkstrasServ: DijkstrasAlog) { }
 
   ngOnInit() {
+    this.totalNumberOfSquares = this.dijkstrasServ.getnumofNodes();
     for (let i = 0; i < this.dijkstrasServ.getnumofNodes(); i++) {
       // old value was  ^^^^1058
       this.squares.push(i);
     }
+    this.numberofSquaresPerRow = this.calculateNumberOfSquaresPerRow(this.totalNumberOfSquares);
+  }
+
+  /**
+   * for this visualization totalSquares should be perfect squares and >= 4
+   * in order ot avoid possable visual bugs
+   * @param totalSquares total number of square that will be visually represented
+   */
+  calculateNumberOfSquaresPerRow(totalSquares: number): number {
+    let sqrtOfTotal: number = Math.sqrt(totalSquares);
+    return sqrtOfTotal + sqrtOfTotal + (sqrtOfTotal/2);
+  }
+
+  setBoardWidthWithRespectToTotalSquares(): string {
+    return `${this.numberofSquaresPerRow}rem`
   }
 
   @HostListener("document:keypress", ["$event"])

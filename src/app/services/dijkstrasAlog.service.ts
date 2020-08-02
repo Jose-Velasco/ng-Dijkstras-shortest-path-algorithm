@@ -18,9 +18,10 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
   private _nodeIsWall: boolean[];
 
   constructor(private squareStatusServ: SquareStatusService) {
-    // super(18);
     // call super with the number of nodes/squares you want in the board
-    super(100);
+    // make sure the number being used in super is a perfect square >= 4
+    // to avoid possable visual board bugs
+    super(441);
     this._graph = this.getGraph();
     this._edgeCount = this.getedgeCount();
     this._numOfNodes = this.getnumofNodes();
@@ -63,10 +64,11 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
 
   /**
    * algorithm to handle linking each node to its neighbors.
+   * nodesPerRow should be the square root of a perfect square and >= 4
+   * to avoid visual bugs
    */
   constructNodeEdges(): void {
-    // let nodesPerRow = 6;
-    let nodesPerRow = 10;
+    let nodesPerRow = Math.sqrt(this._numOfNodes);
     for(let i = 0; i < this._numOfNodes; i++) {
       // BELOW NODE
       // as long as it is not the last row because

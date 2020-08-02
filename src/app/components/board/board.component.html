@@ -1,4 +1,4 @@
-<div class="main">
+<div class="main" [ngStyle]="{'width': setBoardWidthWithRespectToTotalSquares()}">
   <!-- using false on events allows us to disable the event's default behaviour
         ex. the right click menu -->
     <app-square
