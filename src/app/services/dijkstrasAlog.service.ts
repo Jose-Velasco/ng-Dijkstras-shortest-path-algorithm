@@ -53,7 +53,8 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
     const pathing: number[] = this.reconstructPath(this.squareStatusServ.startNode, this.squareStatusServ.endNode);
     const isEndNodeReachable: boolean = (pathing.length !== 0);
     if(isEndNodeReachable) {
-      console.log(pathing);
+      // use this to see that ???shortest??? pathing of animation
+      // console.log(pathing);
       this.squareStatusServ.onVisualizeSearch(this._orderOfVisitedNodes, pathing);
       return;
     }

@@ -11,6 +11,7 @@ export class SquareStatusService {
   activatedEmitterSquare = new Subject<SquareEventData>();
   private _onSquareVisited = new Subject<number>();
   private _onResetSquareproperties = new Subject<ResetSquareData>();
+  private _animationInProgressHasChanged = new Subject<boolean>();
   private _startNode: number = null;
   private _endNode: number = null;
   private _animationTimer: ReturnType<typeof setTimeout>;
@@ -29,6 +30,9 @@ export class SquareStatusService {
   }
   get onResetSquareproperties(): Observable<ResetSquareData> {
     return this._onResetSquareproperties.asObservable();
+  }
+  get animationInProgressHasChanged(): Observable<boolean> {
+    return this._animationInProgressHasChanged.asObservable();
   }
   get startNode(): number {
     return this._startNode;
@@ -272,6 +276,7 @@ export class SquareStatusService {
     // might be an issue beacuse this is not changed at the very instance when the algorithm is started
     if(!this.isAnimationInProgress) {
       this.isAnimationInProgress = true;
+      this._animationInProgressHasChanged.next(this.isAnimationInProgress);
     }
     // when we have finished iterating thru the vistedNodes array
     // then starrt going thru the shortestPath array
@@ -295,6 +300,7 @@ export class SquareStatusService {
     if(currentIter >= totalAnimationIter || this._stopAnimation) {
       this.stopAnimation = false;
       this.isAnimationInProgress = false;
+      this._animationInProgressHasChanged.next(this.isAnimationInProgress);
       clearTimeout(this._animationTimer);
       return;
     } else {
