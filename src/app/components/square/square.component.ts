@@ -50,7 +50,6 @@ export class SquareComponent implements OnInit, OnDestroy {
       if(fullResetData.fullReset) {
         this.resetSquareTouchedProperties(fullResetData.nodesIndexToBeReseted);
       } else {
-        // this.handleRestANodeProperties(fullResetData.nodesIndexToBeReseted, fullResetData.optionToBeAdjusted);
         this.handlePartialReset(fullResetData);
       }
     });

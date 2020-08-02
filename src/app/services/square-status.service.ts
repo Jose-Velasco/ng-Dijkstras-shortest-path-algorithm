@@ -36,6 +36,12 @@ export class SquareStatusService {
   get endNode(): number {
     return this._endNode;
   }
+  get isAnimationInProgress(): boolean {
+    return this._isAnimationInProgress;
+  }
+  set isAnimationInProgress(isInProgress: boolean) {
+    this._isAnimationInProgress = isInProgress;
+  }
   get stopAnimation(): boolean {
     return this._stopAnimation;
   }
@@ -99,7 +105,13 @@ export class SquareStatusService {
     }
   }
 
-  // might have to check here to make sure wall being added is not a start or end node
+  onHandleAddingWallNode(squareEventData: SquareEventData): void {
+    if(!this.isAnimationInProgress) {
+      this.activatedEmitterSquare.next(squareEventData);
+      this.handleAddingWallNodes(squareEventData.nodeindex);
+    }
+  }
+
   handleAddingWallNodes(nodeIndex: number): void {
     const startEndNodeData = this.checkIsStartOrEndNode(nodeIndex);
     if(startEndNodeData.isStartOrEndNode) {
@@ -163,11 +175,19 @@ export class SquareStatusService {
     }
   }
 
-  handleAddingStartEndNodes(squareEventData: SquareEventData): void {
-    if(this.nodeIsWall[squareEventData.nodeindex]) {
-      this.handleRemovingWallNodes(squareEventData.nodeindex);
+  onHandleRemovingWallNodes(nodeIndex: number): void {
+    if(!this.isAnimationInProgress) {
+      this.handleRemovingWallNodes(nodeIndex);
     }
-    this.activatedEmitterSquare.next(squareEventData);
+  }
+
+  handleAddingStartEndNodes(squareEventData: SquareEventData): void {
+    if(!this.isAnimationInProgress) {
+      if(this.nodeIsWall[squareEventData.nodeindex]) {
+        this.handleRemovingWallNodes(squareEventData.nodeindex);
+      }
+      this.activatedEmitterSquare.next(squareEventData);
+    }
   }
 
   /**
@@ -249,6 +269,10 @@ export class SquareStatusService {
   }
 
   visualizeSearchAndShortestPathAnimation(isShortestPath: boolean, totalAnimationIter:number, currentIter: number) {
+    // might be an issue beacuse this is not changed at the very instance when the algorithm is started
+    if(!this.isAnimationInProgress) {
+      this.isAnimationInProgress = true;
+    }
     // when we have finished iterating thru the vistedNodes array
     // then starrt going thru the shortestPath array
     if(currentIter >= this._orderOfVisitedNodes.length && !isShortestPath) {
@@ -270,6 +294,7 @@ export class SquareStatusService {
     // then stop animation and clean up setTimeout
     if(currentIter >= totalAnimationIter || this._stopAnimation) {
       this.stopAnimation = false;
+      this.isAnimationInProgress = false;
       clearTimeout(this._animationTimer);
       return;
     } else {

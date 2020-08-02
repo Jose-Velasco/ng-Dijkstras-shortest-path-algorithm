@@ -45,6 +45,8 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
       alert("Error: select a start and end node");
       return;
     }
+    // this might need to be changed becasue it might be hard to debug because
+    // this is changing a propery from another class which the class has no awareness of it when changed
     this.squareStatusServ.stopAnimation = false;
     // get array of which nodes are currently walls
     this._nodeIsWall = this.squareStatusServ.nodeIsWall;

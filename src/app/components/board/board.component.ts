@@ -63,17 +63,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       }
       this.squareStatServ.handleAddingStartEndNodes(squareClickedData);
     }
-    // else if(!this.isEKeydown && !this.isSKeydown) {
-    //   console.log("node clicked = ",index);
-    // }
   }
-
-  //  need to find a way to hold left mouse button to color squares faster
-  // onSquaredragover(index: number) {
-  //   setTimeout(() => {
-  //     this.squareStatServ.activatedEmitterSquare.next(index);
-  //   }, 500);
-  // }
 
   CheckMouseIfLeftOrRightButtonIsHeld(event: MouseEvent, nodeIndex: number) {
     if(this.isEKeydown || this.isSKeydown || event.buttons === 0) {
@@ -85,11 +75,10 @@ export class BoardComponent implements OnInit, OnDestroy {
         nodeindex: nodeIndex,
         noKeyPressedWithLeftMouseClick: true
       };
-      this.squareStatServ.activatedEmitterSquare.next(squareClickedData);
-      this.squareStatServ.handleAddingWallNodes(nodeIndex);
+      this.squareStatServ.onHandleAddingWallNode(squareClickedData);
     // the 2 represents right mouse click
     } else if(event.buttons === 2) {
-      this.squareStatServ.handleRemovingWallNodes(nodeIndex);
+      this.squareStatServ.onHandleRemovingWallNodes(nodeIndex);
     }
   }
 
