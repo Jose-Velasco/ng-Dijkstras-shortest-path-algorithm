@@ -41,7 +41,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   setBoardWidthWithRespectToTotalSquares(): string {
-    return `${this.numberofSquaresPerRow}rem`
+    return `${this.numberofSquaresPerRow}rem`;
   }
 
   @HostListener("document:keypress", ["$event"])
@@ -106,7 +106,7 @@ export class BoardComponent implements OnInit, OnDestroy {
         nodeindex: -1,
         sKeyPressed: false,
         EKeyPressed: false
-      }
+      };
       this.squareStatServ.activatedEmitterSquare.next(squareResetValues);
     }
   }

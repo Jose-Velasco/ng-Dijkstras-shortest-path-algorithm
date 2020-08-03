@@ -21,7 +21,7 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
     // call super with the number of nodes/squares you want in the board
     // make sure the number being used in super is a perfect square >= 4
     // to avoid possable visual board bugs
-    super(441);
+    super(576);
     this._graph = this.getGraph();
     this._edgeCount = this.getedgeCount();
     this._numOfNodes = this.getnumofNodes();

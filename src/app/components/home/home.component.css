@@ -1,0 +1,9 @@
+.home-container {
+  display: flex;
+}
+
+.board-wraper {
+  display: flex;
+  width: 88%;
+  justify-content: center;
+}

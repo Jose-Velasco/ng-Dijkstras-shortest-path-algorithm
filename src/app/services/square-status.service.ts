@@ -19,7 +19,9 @@ export class SquareStatusService {
   private _orderOfVisitedNodes: number[] = [];
   private _shortestPath: number[] = [];
   private _stopAnimation: boolean = false;
-  private _animationFramesPerMilSec: number = 150;
+  // this might need to be fixed because animation speeds
+  // up as the value goes down
+  private _animationFramesPerMilSec: number = 55;
   private _nodeIsWall: boolean[] = [];
   private _indexsOfWhichNodeIsWall: number[] = [];
 
