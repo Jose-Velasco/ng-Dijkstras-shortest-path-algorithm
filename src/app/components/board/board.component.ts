@@ -1,7 +1,6 @@
 import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { SquareStatusService } from '../../services/square-status.service';
 import { DijkstrasAlog } from 'src/app/services/dijkstrasAlog.service';
-import { SquareComponent } from '../square/square.component';
 import { SquareEventData } from 'src/app/shared/squareEventData.model';
 
 @Component({
@@ -37,7 +36,7 @@ export class BoardComponent implements OnInit, OnDestroy {
    */
   calculateNumberOfSquaresPerRow(totalSquares: number): number {
     let sqrtOfTotal: number = Math.sqrt(totalSquares);
-    return sqrtOfTotal + sqrtOfTotal + (sqrtOfTotal/2);
+    return sqrtOfTotal + sqrtOfTotal + (sqrtOfTotal / 2);
   }
 
   setBoardWidthWithRespectToTotalSquares(): string {
@@ -69,14 +68,14 @@ export class BoardComponent implements OnInit, OnDestroy {
       let squareClickedData: SquareEventData = {
         nodeindex: index,
         sKeyPressed: true
-      }
+      };
       this.squareStatServ.handleAddingStartEndNodes(squareClickedData);
     } else if(this.isEKeydown && !this.isSKeydown) {
       this.hasSOrEKeyPressed = true;
       let squareClickedData: SquareEventData = {
         nodeindex: index,
         EKeyPressed: true,
-      }
+      };
       this.squareStatServ.handleAddingStartEndNodes(squareClickedData);
     }
   }

@@ -153,7 +153,7 @@ export class DijkstrasShortestPathAdjacencyListWithDHeap {
       }
     }
     // end node is unreachable
-    return Number.POSITIVE_INFINITY
+    return Number.POSITIVE_INFINITY;
   }
 
   /**

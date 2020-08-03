@@ -79,7 +79,7 @@ export class SquareStatusService {
       isStartOrEndNode: false,
       isStartNode: false,
       isEndNode: false
-    }
+    };
 
     if((this.startNode === indexOfNode) || (this.endNode === indexOfNode)) {
       let isEqualToStartNode: boolean = this.startNode === indexOfNode;
@@ -146,7 +146,7 @@ export class SquareStatusService {
       fullReset: false,
       nodesIndexToBeReseted: nodeIndex,
       optionToBeAdjusted: []
-    }
+    };
     if(isStartNode) {
       this.startNode = null;
       adjustSquareData.optionToBeAdjusted.push(SquareNodesOptionProperties.Start);
