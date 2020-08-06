@@ -1,8 +1,14 @@
 .square {
-    border: 1px solid black;
+    border: 1px solid rgba(4, 100, 45, 0.5);
+    /* border: 1px solid grey; */
+    /* border: 1px solid rgba(5, 105, 62, 0.534); */
     width: 2.5em;
     height: 2.5em;
     margin: 0;
+}
+
+.inside-square {
+  height: 100%;
 }
 
 .startSquare {
@@ -21,9 +27,115 @@
 }
 
 .visited {
-  background-color: green;
+  animation-name: visitedAnimation;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  /* animation-timing-function:  cubic-bezier(0.000, 0.740, 1.000, 0.180); */
+  animation-timing-function: ease;
+}
+
+@keyframes visitedAnimation{
+  0% {
+    background-color: #C93C3C;
+  }
+
+  /* These comments contain two possable alternative animations */
+/* Animation test 1
+  30% {
+    transform: scale(1.1);
+  }
+
+  50% {
+    background-color: #26FFA1;
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: #09C372;
+    border: 1px solid #078750;
+  }
+  ### Animation test 1 end ###
+  */
+
+
+  /* Animation test 2
+    29% {
+    background-color: #C2250A;
+    border-radius: 15%;
+  }
+
+  30% {
+    background-color: #044F2F;
+  }
+
+  40% {
+    border-radius: 30%;
+    transform: scale(0);
+  }
+
+  75% {
+    background-color: #26FFA1;
+    transform: scale(1.09);
+  }
+
+  100% {
+    transform: scale(1);
+    border-radius: 0%;
+
+    background-color: #09C372;
+  }
+   ### Animation test 2 end ###
+  */
+
+
+  29% {
+    background-color: #C93C3C;
+  }
+
+  30% {
+    background-color: #037544;
+  }
+
+  50% {
+    background-color: #26FFA1;
+    transform: scale(1.1);
+  }
+
+  85% {
+    border-radius: 3px 8px;
+    transform: scale(0.6);
+  }
+
+  100% {
+    border-radius: 0%;
+    transform: scale(1);
+    background-color: #09C372;
+  }
 }
 
 .shortestPath {
-  background-color: orange;
+  background-color: #29565C;
+  animation-name: shortestPathAnimation;
+  animation-duration: 2.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease;
+}
+
+@keyframes shortestPathAnimation {
+  0% {
+    background-color: #29565C;
+  }
+
+  50% {
+    background-color: #25DBF5;
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+    background-color: #25DBF5;
+  }
+
 }

@@ -1,8 +1,9 @@
-<div class="square"
-    [ngClass]="{
-      startSquare: startSquareColor,
-      wallSquare: isWallSquare,
-      endSquare: endSquareColor,
-      visited: hasBeenVisited && !isOnShortestPath,
-      shortestPath: isOnShortestPath}">
+<div class="square">
+      <div class="inside-square"
+      [ngClass]="{
+        startSquare: startSquareColor,
+        wallSquare: isWallSquare,
+        endSquare: endSquareColor,
+        visited: hasBeenVisited && !isOnShortestPath,
+        shortestPath: isOnShortestPath}"></div>
 </div>
