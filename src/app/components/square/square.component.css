@@ -12,6 +12,22 @@
 
 .startSquare {
   background-color: #751243;
+  animation-name: startSquareAnimation;
+  animation-duration: 0.5s;
+}
+
+@keyframes startSquareAnimation {
+  0% {
+    transform: scale(0.8);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .wallSquare {
@@ -20,6 +36,20 @@
 
 .endSquare {
   background-color: #C2578D;
+  animation-name: endSquareAnimation;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
+}
+
+@keyframes endSquareAnimation {
+  0% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .visited {
