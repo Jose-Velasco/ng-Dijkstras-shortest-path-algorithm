@@ -126,6 +126,10 @@ export class SquareComponent implements OnInit, OnDestroy {
     }
   }
 
+  applyVisitedAnimation(): boolean {
+    return (this.hasBeenVisited && !this.isOnShortestPath && !this.startSquareColor);
+  }
+
   ngOnDestroy() {
     console.log("sqaure destytored");
     this.activatedSquareSub.unsubscribe();

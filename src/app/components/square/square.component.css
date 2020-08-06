@@ -1,10 +1,9 @@
 .square {
-    border: 1px solid rgba(4, 100, 45, 0.5);
-    /* border: 1px solid grey; */
-    /* border: 1px solid rgba(5, 105, 62, 0.534); */
-    width: 2.5em;
-    height: 2.5em;
-    margin: 0;
+  /* border: 1px solid rgba(4, 100, 45, 0.35); */
+  border: 1px solid grey;
+  width: 2.5em;
+  height: 2.5em;
+  margin: 0;
 }
 
 .inside-square {
@@ -12,18 +11,15 @@
 }
 
 .startSquare {
-    border: 3px solid orange;
-    background-color: cyan;
+  background-color: #751243;
 }
 
 .wallSquare {
-    border: 3px solid red;
-    background-color: black;
+  background-color: #063319;
 }
 
 .endSquare {
-    border: 3px solid cyan;
-    background-color: orange;
+  background-color: #C2578D;
 }
 
 .visited {
@@ -88,7 +84,6 @@
    ### Animation test 2 end ###
   */
 
-
   29% {
     background-color: #C93C3C;
   }
@@ -115,7 +110,7 @@
 }
 
 .shortestPath {
-  background-color: #29565C;
+  background-color: #751100;
   animation-name: shortestPathAnimation;
   animation-duration: 2.5s;
   animation-fill-mode: forwards;
@@ -125,17 +120,21 @@
 
 @keyframes shortestPathAnimation {
   0% {
-    background-color: #29565C;
+    background-color: #751100;
   }
 
   50% {
-    background-color: #25DBF5;
+    background-color: #C2250A;
     transform: scale(1.1);
   }
 
   100% {
     transform: scale(1);
-    background-color: #25DBF5;
+    background-color: #C2250A;
   }
 
+}
+
+.removeBorder {
+  border: none;
 }
