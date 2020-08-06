@@ -6,24 +6,49 @@
   margin-left: 0.5rem;
 }
 
-.reset-button {
-  width: 5em;
-  height: 2.5em;
-  background-color: yellow;
-  font-size: 1.6em;
+.btn {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent;
+  border-radius: 0.3rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  min-height: 3.5rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.full-reset-button {
+  background-color: var(--red-light);
+}
+
+.full-reset-button:focus {
+  box-shadow: 0 0 0 0.2rem var(--red-light);
 }
 
 .start-button {
-  width: 5em;
-  height: 2.5em;
-  background-color: aquamarine;
-  font-size: 1.6em;
+  background-color: var(--base-green);
+  border-color: var(--base-green);
 }
 
-.Wall-done-button {
-  width: 5em;
-  height: 2.5em;
-  background-color: black;
-  font-size: 1.6em;
-  color: white;
+.start-button:focus {
+  box-shadow: 0 0 0 0.2rem var(--base-green);
+}
+
+.clear-search-button {
+  background-color: var(--yellow);
+}
+
+.clear-search-button:focus {
+  box-shadow: 0 0 0 0.2rem var(--yellow-light);
 }
