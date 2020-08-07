@@ -9,6 +9,7 @@
   --base-green: #09C372;
   --base-green-dark: #037544;
   --base-green-light: #26FFA1;
+  --green-dark: #034227;
   --blue-light: #25DBF5;
   --blue-dark: #29565C;
   --red: #C2250A;
@@ -17,4 +18,36 @@
   --yellow: #C2AC00;
   --yellow-light: #CFB600;
   --yellow-dark: #A89500;
+}
+
+.btn {
+  background-color: var(--base-green);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid transparent;
+  border-radius: 0.3rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  min-height: 3.5rem;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:focus {
+  outline: 0;
+}
+
+.btn:hover {
+  opacity: 0.87;
+  cursor: pointer;
+}
+
+.no-min-height {
+  min-height: 0;
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DijkstrasAlog } from 'src/app/services/dijkstrasAlog.service';
 import { SquareStatusService } from 'src/app/services/square-status.service';
 import { Subscription } from 'rxjs';
+import { MenuButtonsService } from 'src/app/services/menu-buttons.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -14,7 +15,8 @@ export class MainMenuComponent implements OnInit, OnDestroy {
 
   constructor(
     private dijkstrasAlgo: DijkstrasAlog,
-    private squareStatusServ: SquareStatusService) { }
+    private squareStatusServ: SquareStatusService,
+    private menuButtonsService: MenuButtonsService) { }
 
   ngOnInit() {
     this.animationInProgSubscription = this.squareStatusServ.animationInProgressHasChanged.subscribe((isStillInProgress) => {
@@ -37,6 +39,11 @@ export class MainMenuComponent implements OnInit, OnDestroy {
       this.clearSearchPathAnimation();
       this.dijkstrasAlgo.initiateVisualAlgorithm();
     }
+  }
+
+  onClickHelpButton(): void {
+    const hasOpenedModal = true;
+    this.menuButtonsService.openHelpModal(hasOpenedModal);
   }
 
   ngOnDestroy() {
