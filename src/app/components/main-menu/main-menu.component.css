@@ -5,6 +5,15 @@
   background-color: var(--green-dark);
 }
 
+@media only screen and (max-width: 1245px) {
+  /* temporary fix for small screen resolution:
+    a visual bug on small screen that would
+    case the main menu/buttons to cover the board on small screens */
+  .main-menu-container {
+    position: relative;
+  }
+}
+
 .main-menu-wraper {
   height: 20rem;
   display: flex;

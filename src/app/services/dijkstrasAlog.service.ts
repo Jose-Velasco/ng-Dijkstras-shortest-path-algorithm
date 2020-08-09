@@ -42,7 +42,6 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
    */
   initiateVisualAlgorithm(): void {
     if(this.squareStatusServ.startNode === null || this.squareStatusServ.endNode === null) {
-      console.error("Error: select a start and end node");
       alert("Error: select a start and end node");
       return;
     }
@@ -60,6 +59,7 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
       return;
     }
     console.log("is end node reachable: ", isEndNodeReachable);
+    alert(`Error: Is end node reachable:  ${isEndNodeReachable}`);
   }
 
   /**

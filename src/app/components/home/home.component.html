@@ -7,16 +7,17 @@
         </button>
       </div>
       <div class="modal-content">
-        <h1>Welcome to Dijkstra's algorithm Pathfinding Visualizer</h1>
-        <h3>Visualize the shortest path</h3>
-        <p>&#8226; visual representation of Dijkstra's algorithm using TypeScript and Angular &nbsp; &nbsp; &nbsp;
+        <h1>{{ testLinkLink.currentLink.data.title }}</h1>
+        <h3>{{ testLinkLink.currentLink.data.subheading }}</h3>
+        <!-- <p>&#8226; visual representation of Dijkstra's algorithm using TypeScript and Angular &nbsp; &nbsp; &nbsp;
           &nbsp; &#8226; data structures such as min index
           d-array heap, adjacency list and weighted graphs
-        </p>
+        </p> -->
+        <p>{{ testLinkLink.currentLink.data.paragraphBody }}</p>
       </div>
       <div class="buttons-wrapper">
-        <button type="button" class="btn no-min-height previousButton">Previous</button>
-        <button type="button" class="btn no-min-height nextButton">Next</button>
+        <button type="button" (click)="previousPageOfContent()" class="btn no-min-height previousButton">Previous</button>
+        <button type="button" (click)="nextPageOfContent()" class="btn no-min-height nextButton">Next</button>
       </div>
     </div>
   </div>
