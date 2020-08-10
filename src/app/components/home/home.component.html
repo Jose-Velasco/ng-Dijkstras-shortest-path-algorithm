@@ -1,15 +1,16 @@
 <div class="home-container">
   <div class="modal-container" [ngStyle]="{'display': isModalOpen ? 'block' : 'none'}">
     <div class="modal-wrapper">
-      <div class="close-button-wrapper">
+      <div class="close-button-pagination-wrapper">
+          <p>{{ setModalPagination() }}</p>
         <button type="button" (click)="ontoggleCloseModal()" class="btn button-close">
           &times;
         </button>
       </div>
       <div class="modal-content">
-        <h1>{{ testLinkLink.currentLink.data.title }}</h1>
-        <h3>{{ testLinkLink.currentLink.data.subheading }}</h3>
-        <p>{{ testLinkLink.currentLink.data.paragraphBody }}</p>
+        <h1>{{ ModalTutorialContentCarousel.currentLink.data.title }}</h1>
+        <h3>{{ ModalTutorialContentCarousel.currentLink.data.subheading }}</h3>
+        <p>{{ ModalTutorialContentCarousel.currentLink.data.paragraphBody }}</p>
       </div>
       <div class="buttons-wrapper">
         <button type="button" (click)="previousPageOfContent()" class="btn no-min-height previousButton">Previous</button>
