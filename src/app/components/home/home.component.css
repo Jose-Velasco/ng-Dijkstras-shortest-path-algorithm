@@ -2,6 +2,7 @@
   display: flex;
 }
 
+ /* handles backdrop of modal */
 .modal-container {
   display: none;
   position: fixed;
@@ -22,17 +23,24 @@
   text-align: center;
   display: flex;
   background-color: #fefefe;
+  border-radius: 5px;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   border: 2px solid var(--green-dark);
-  width: 80%;
-  height: 80%;
+  width: 55%;
+  height: 70%;
+}
+
+.close-button-wrapper {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .button-close {
+  background-color: transparent;
   min-height: 0;
   color: #aaaaaa;
-  font-size: 28px;
+  font-size: 3rem;
   font-weight: bold;
 }
 
@@ -40,6 +48,30 @@
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: var(--green-dark);
+}
+
+.modal-content h1 {
+  font-size: 2.1rem;
+  font-weight: bold;
+}
+.modal-content h3 {
+  font-size: 1.3rem;
+}
+.modal-content p {
+  padding-top: 2.5rem;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+.modal-content p, h1, h3 {
+  margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .buttons-wrapper {

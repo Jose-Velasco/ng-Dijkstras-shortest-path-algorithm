@@ -20,6 +20,10 @@
   --yellow-dark: #A89500;
 }
 
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .btn {
   background-color: var(--base-green);
   display: flex;
