@@ -81,14 +81,18 @@ export class HomeComponent implements OnInit {
     this.handlePaginationLogic(false);
   }
 
+  /**
+   * true when increasing the page number, false when decreasing page number
+   * @param hasClickedNextPage either going fowards or backwards
+   */
   private handlePaginationLogic(hasClickedNextPage: boolean): void {
+    const firstPage: number = 1;
     if (hasClickedNextPage) {
       this.currentPage++;
       if (this.currentPage > this.ModalTutorialContentCarousel.numOfLinks) {
-        this.currentPage = 1;
+        this.currentPage = firstPage;
       }
     } else if (!hasClickedNextPage) {
-      const firstPage: number = 1;
       this.currentPage--;
       if (this.currentPage < firstPage) {
         this.currentPage = this.ModalTutorialContentCarousel.numOfLinks;

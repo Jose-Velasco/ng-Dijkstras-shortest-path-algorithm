@@ -58,7 +58,7 @@ export class DijkstrasAlog extends DijkstrasShortestPathAdjacencyListWithDHeap {
       this.squareStatusServ.onVisualizeSearch(this._orderOfVisitedNodes, pathing);
       return;
     }
-    console.log("is end node reachable: ", isEndNodeReachable);
+    // console.log("is end node reachable: ", isEndNodeReachable);
     alert(`Error: Is end node reachable:  ${isEndNodeReachable}`);
   }
 
